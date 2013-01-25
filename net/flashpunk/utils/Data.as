@@ -12,6 +12,15 @@
 		 */
 		public static var id:String = "";
 		
+    /**
+     * Clears the SharedObject and delete it from disk
+     * Copied from Chman on flashpunk forums
+     */
+    public static function clear():void
+    {
+      _shared.clear();
+    }
+
 		/**
 		 * Overwrites the current data with the file.
 		 * @param	file		The filename to load.
