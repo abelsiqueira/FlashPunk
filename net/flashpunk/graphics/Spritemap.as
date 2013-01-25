@@ -47,6 +47,32 @@
 			updateBuffer();
 			active = true;
 		}
+
+		/**
+		 * Change the animation image source,
+		 * but retain the animations.
+		 */
+		public function changeAnimation(source:*, frameWidth:uint = 0, frameHeight:uint = 0, callback:Function = null) : void
+		{
+			if (frameWidth == 0)
+				frameWidth = _rect.width;
+			if (frameHeight == 0)
+				frameHeight = _rect.height;
+			if (callback == null)
+				callback = this.callback;
+			_rect = new Rectangle(0, 0, frameWidth, frameHeight);
+			super.changeImage(source, _rect);
+			if (!frameWidth) _rect.width = this.source.width;
+			if (!frameHeight) _rect.height = this.source.height;
+			_width = this.source.width;
+			_height = this.source.height;
+			_columns = Math.ceil(_width / _rect.width);
+			_rows = Math.ceil(_height / _rect.height);
+			_frameCount = _columns * _rows;
+			this.callback = callback;
+			updateBuffer();
+			active = true;
+		}
 		
 		/**
 		 * Updates the spritemap's buffer.
@@ -141,7 +167,7 @@
 			updateBuffer();
 			return _anim;
 		}
-		
+
 		/**
 		 * Gets the frame index based on the column and row of the source image.
 		 * @param	column		Frame column.

@@ -187,6 +187,31 @@ package net.flashpunk.graphics
 			_buffer.copyPixels(_source, _sourceRect, FP.zero, _drawMask, FP.zero);
 			if (_tint) _buffer.colorTransform(_bufferRect, _tint);
 		}
+
+		/**
+		 * Change source image.
+		 * Used for the animation image change.
+		 * @param source   Source image.
+		 */
+		public function changeImage(source:*, clipRect:Rectangle = null) : void
+		{
+			if (source is Class)
+			{
+				_source = FP.getBitmap(source);
+				_class = String(source);
+			}
+			else if (source is BitmapData) _source = source;
+			if (!_source) throw new Error("Invalid source image.");
+			_sourceRect = _source.rect;
+			if (clipRect)
+			{
+				if (!clipRect.width) clipRect.width = _sourceRect.width;
+				if (!clipRect.height) clipRect.height = _sourceRect.height;
+				_sourceRect = clipRect;
+			}
+			createBuffer();
+			updateBuffer();
+		}
 		
 		/**
 		 * Clears the image buffer.
